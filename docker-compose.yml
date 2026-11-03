@@ -1,0 +1,20 @@
+# Local development database. Run: docker compose up -d db
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_USER: gilmok
+      POSTGRES_PASSWORD: gilmok
+      POSTGRES_DB: gilmok
+    ports:
+      - "5432:5432"
+    volumes:
+      - gilmok_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gilmok -d gilmok"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  gilmok_pg:
